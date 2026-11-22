@@ -1,0 +1,44 @@
+name: Ghost Warehouse fulfillment validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  pilot-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run integration tests
+        run: python -m unittest discover -s tests -v
+      - name: Run pilot simulation
+        run: python scripts/run_fulfillment.py
+      - name: Verify generated output and reconciliation
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          data = Path("data")
+          def rows(name):
+              with (data/name).open(newline="") as f:
+                  return list(csv.DictReader(f))
+          kpi = rows("fulfillment_kpis.csv")[0]
+          assert int(kpi["orders"]) == 25, kpi
+          assert int(kpi["shipped_orders"]) == 25, kpi
+          assert int(kpi["shipped_units"]) == 50, kpi
+          assert int(kpi["opening_units"]) == 19870, kpi
+          assert int(kpi["ending_units"]) == 19820, kpi
+          assert float(kpi["total_route_ft"]) > 0, kpi
+          assert len(rows("fulfillment_events.csv")) == 100
+          assert len(rows("fulfillment_pick_tasks.csv")) == 25
+          print("PASS: 25 orders, 50 units, 100 events, inventory reconciles.")
+          print("KPI:", kpi)
+          PY
+      - name: Upload pilot output files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ghost-warehouse-fulfillment-pilot
+          path: data/fulfillment_*.csv
