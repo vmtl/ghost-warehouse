@@ -52,3 +52,21 @@ DATABASE_URL=postgresql:///ghost_warehouse python scripts/load_products.py
 ```
 
 **Safety/accuracy:** These are hypothetical catalog offerings, not verified BMW-compatible products or real market prices. `OEM-style Replacement` describes a fictional replacement tier, **not** a genuine BMW OEM part. Brake fitments in particular require rotor, caliper, hub, wheel clearance, and vehicle-specific engineering checks. The generator has not been run against a production database.
+
+## Phase 3 — 8,000 warehouse storage locations
+
+- `data/locations.csv`: 8,000 deterministic location records (1,400 pallet rack, 4,000 small drawer, 1,600 shelving, 600 floor bays, 400 secure cabinets).
+- `scripts/generate_locations.py`: regenerates location master data.
+- `scripts/load_locations.py`: idempotent PostgreSQL location loader.
+- `sql/004_storage_locations.sql`: adds physical slot attributes and constraints.
+- `tests/test_locations.py`: count, uniqueness, capacity and committed-CSV consistency tests.
+- `docs/layout.md`: facility plan, location dimensions, handling and storage rules.
+
+```bash
+python scripts/generate_locations.py
+python -m unittest discover -s tests
+psql -d ghost_warehouse -v ON_ERROR_STOP=1 -f sql/004_storage_locations.sql
+DATABASE_URL=postgresql:///ghost_warehouse python scripts/load_locations.py
+```
+
+**Status:** Location master data has been committed, but no PostgreSQL deployment or physical product-to-location slotting has been executed. Storage capacities and weights are hypothetical, not real rack certifications.
