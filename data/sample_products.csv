@@ -1,0 +1,21 @@
+sku,product_name,category,brand,unit_cost,retail_price,weight_kg,simulated
+GH-00001,Cold Air Intake Kit,Engine & Induction,Ghost Performance (fictional),35,57.75,0.400,true
+GH-00002,Charge Pipe Kit,Engine & Induction,Ghost Performance (fictional),76,125.40,1.050,true
+GH-00003,Intercooler Upgrade,Engine & Induction,Ghost Performance (fictional),117,193.05,1.700,true
+GH-00004,Turbo Inlet Kit,Turbocharging,Ghost Performance (fictional),158,260.70,2.350,true
+GH-00005,Cat-Back Exhaust,Exhaust,Ghost Performance (fictional),199,328.35,3.000,true
+GH-00006,Performance Downpipe,Exhaust,Ghost Performance (fictional),240,396.00,3.650,true
+GH-00007,Coilover Kit,Suspension,Ghost Performance (fictional),281,463.65,4.300,true
+GH-00008,Lowering Springs,Suspension,Ghost Performance (fictional),322,531.30,4.950,true
+GH-00009,Performance Brake Pads,Braking,Ghost Performance (fictional),363,598.95,5.600,true
+GH-00010,Two-Piece Brake Rotors,Braking,Ghost Performance (fictional),404,666.60,6.250,true
+GH-00011,Limited Slip Differential Kit,Drivetrain,Ghost Performance (fictional),445,734.25,6.900,true
+GH-00012,Engine Mount Set,Drivetrain,Ghost Performance (fictional),486,801.90,7.550,true
+GH-00013,Carbon Front Splitter,Exterior,Ghost Performance (fictional),527,869.55,8.200,true
+GH-00014,Carbon Rear Diffuser,Exterior,Ghost Performance (fictional),568,937.20,8.850,true
+GH-00015,Carbon Trunk Spoiler,Exterior,Ghost Performance (fictional),609,1004.85,9.500,true
+GH-00016,Aluminum Radiator,Cooling,Ghost Performance (fictional),650,1072.50,10.150,true
+GH-00017,Oil Cooler Kit,Cooling,Ghost Performance (fictional),691,1140.15,10.800,true
+GH-00018,Boost Sensor,Electronics,Ghost Performance (fictional),732,1207.80,11.450,true
+GH-00019,High-Flow Air Filter,Maintenance,Ghost Performance (fictional),773,1275.45,12.100,true
+GH-00020,Performance Spark Plug Set,Maintenance,Ghost Performance (fictional),814,1343.10,12.750,true
