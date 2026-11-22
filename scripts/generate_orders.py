@@ -21,7 +21,7 @@ def read(name):
 
 def write(name, columns, rows):
     with (ROOT / name).open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\\n")
+        writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
