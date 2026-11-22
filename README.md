@@ -35,3 +35,20 @@ These SQL scripts have been committed but have **not yet been executed against a
 2. Add inventory seeding and transactional simulation.
 3. Add PostgreSQL integration tests and GitHub Actions validation.
 4. Build inventory accuracy, fulfillment, and demand forecasting case studies.
+
+## Phase 2 — 2,500-SKU synthetic catalog
+
+- `data/products.csv`: 2,500 fictional product records with component category, product type, manufacturer, indicative synthetic costs/prices and **unverified** BMW chassis association.
+- `scripts/generate_products.py`: deterministic Python generator (50 component families × 10 chassis codes × 5 fictional manufacturers).
+- `sql/003_catalog_classification.sql`: adds product type and fitment status fields.
+- `scripts/load_products.py`: PostgreSQL importer; requires `pip install psycopg[binary]` and `DATABASE_URL`.
+
+Run in this order after initial setup:
+
+```bash
+psql -d ghost_warehouse -v ON_ERROR_STOP=1 -f sql/003_catalog_classification.sql
+python scripts/generate_products.py
+DATABASE_URL=postgresql:///ghost_warehouse python scripts/load_products.py
+```
+
+**Safety/accuracy:** These are hypothetical catalog offerings, not verified BMW-compatible products or real market prices. `OEM-style Replacement` describes a fictional replacement tier, **not** a genuine BMW OEM part. Brake fitments in particular require rotor, caliper, hub, wheel clearance, and vehicle-specific engineering checks. The generator has not been run against a production database.
