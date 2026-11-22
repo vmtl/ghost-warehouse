@@ -70,3 +70,24 @@ DATABASE_URL=postgresql:///ghost_warehouse python scripts/load_locations.py
 ```
 
 **Status:** Location master data has been committed, but no PostgreSQL deployment or physical product-to-location slotting has been executed. Storage capacities and weights are hypothetical, not real rack certifications.
+
+## Phase 4 — synthetic opening inventory
+
+- `scripts/stock_warehouse.py`: deterministic product package estimates, location compatibility checks and initial allocation.
+- `data/product_packaging.csv`: 2,500 synthetic packaged dimension estimates.
+- `data/initial_inventory.csv`: 2,500 opening receipt rows, reorder targets and extended cost.
+- `sql/005_inventory_packaging.sql`: product package fields and reorder target table.
+- `scripts/load_initial_inventory.py`: database importer for opening inventory, once PostgreSQL is configured.
+
+**Snapshot:** 2,500 occupied addresses, 5,500 unoccupied addresses, 19,870 units, $2,958,702.02 in synthetic cost value. Slot occupancy is 31.25%, not volumetric utilization. Secure cabinet inventory is not yet allocated. These records are an illustrative opening stock position, not a simulated 24-month history.
+
+To regenerate locally: `python scripts/stock_warehouse.py`.
+
+To import after prior schema/seed/product/location steps:
+
+```bash
+psql -d ghost_warehouse -v ON_ERROR_STOP=1 -f sql/005_inventory_packaging.sql
+DATABASE_URL=postgresql:///ghost_warehouse python scripts/load_initial_inventory.py
+```
+
+**Limitations:** Product package dimensions and weights are estimates. The location model uses simple unit counts; pallet positions represent one handling unit and do not yet track cases or units per pallet. Current checks validate per-record dimensional fit and unit-count limits, but not full real-world cube/stacking, actual rack load certification, or multi-SKU slotting. All opening inventory is synthetic. Database loader has not been executed against a PostgreSQL server.
