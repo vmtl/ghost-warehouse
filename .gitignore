@@ -1,0 +1,13 @@
+
+# Local Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Generated fulfillment datasets
+data/fulfillment_*.csv
